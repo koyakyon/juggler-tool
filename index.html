@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ジャグ判別">
+<title>マイジャグラー 設定判別</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #0f0f13;
+    --bg2: #17171e;
+    --bg3: #1f1f28;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.14);
+    --text: #e8e6f0;
+    --text2: #8e8ca0;
+    --text3: #5a5870;
+    --accent: #a78bfa;
+    --accent2: #7c5cdb;
+    --gold: #f5c842;
+    --red: #f87171;
+    --green: #34d399;
+    --teal: #22d3c8;
+    --s1: #60a5fa;
+    --s2: #34d399;
+    --s3: #a78bfa;
+    --s4: #fb923c;
+    --s5: #f472b6;
+    --s6: #f5c842;
+    --radius: 14px;
+    --radius-sm: 8px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding-bottom: env(safe-area-inset-bottom, 20px);
+  }
+
+  /* Header */
+  .header {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 18px 20px 14px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text2);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+  .header-sub {
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+  .header-sub span {
+    color: var(--accent);
+  }
+
+  /* Main */
+  .main { padding: 20px 16px; max-width: 520px; margin: 0 auto; }
+
+  /* Section */
+  .section { margin-bottom: 20px; }
+  .section-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text3);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    padding-left: 2px;
+  }
+
+  /* Input Card */
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+  }
+
+  .input-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+  }
+
+  .input-item label {
+    display: block;
+    font-size: 11px;
+    color: var(--text2);
+    margin-bottom: 6px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+  }
+
+  .input-item input[type=number] {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 22px;
+    font-weight: 500;
+    padding: 12px 10px;
+    text-align: center;
+    outline: none;
+    -webkit-appearance: none;
+    transition: border-color 0.2s;
+  }
+  .input-item input[type=number]:focus {
+    border-color: var(--accent);
+  }
+  .input-item input[type=number]::placeholder { color: var(--text3); }
+
+  /* Stepper buttons */
+  .stepper {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+  .stepper-btn {
+    background: none;
+    border: none;
+    color: var(--text2);
+    font-size: 22px;
+    font-weight: 300;
+    width: 44px;
+    height: 52px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s, color 0.15s;
+    flex-shrink: 0;
+  }
+  .stepper-btn:active { background: var(--border2); color: var(--text); }
+  .stepper-val {
+    flex: 1;
+    text-align: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 52px;
+  }
+
+  /* Stats row */
+  .stats-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .stat-box {
+    background: var(--bg3);
+    border-radius: var(--radius-sm);
+    padding: 10px 8px;
+    text-align: center;
+  }
+  .stat-label { font-size: 10px; color: var(--text3); letter-spacing: 0.06em; }
+  .stat-value {
+    font-family: 'DM Mono', monospace;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text);
+    margin-top: 3px;
+  }
+
+  /* Reliability badge */
+  .reliability {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    font-weight: 500;
+    transition: background 0.3s, color 0.3s;
+  }
+  .reliability.low { background: rgba(248,113,113,0.12); color: var(--red); }
+  .reliability.mid { background: rgba(251,146,60,0.12); color: #fb923c; }
+  .reliability.high { background: rgba(52,211,153,0.12); color: var(--green); }
+  .reliability-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: currentColor;
+    flex-shrink: 0;
+  }
+
+  /* Bayes bars */
+  .bayes-list { display: flex; flex-direction: column; gap: 7px; }
+  .bayes-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .bayes-lbl {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    min-width: 36px;
+    color: var(--text2);
+  }
+  .bayes-track {
+    flex: 1;
+    height: 20px;
+    background: var(--bg3);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .bayes-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.5s cubic-bezier(0.16,1,0.3,1);
+  }
+  .bayes-pct {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    min-width: 46px;
+    text-align: right;
+    color: var(--text);
+  }
+
+  /* Top result box */
+  .result-box {
+    border-radius: var(--radius);
+    padding: 18px;
+    margin-top: 0;
+    text-align: center;
+    transition: background 0.4s, border-color 0.4s;
+    border: 1px solid var(--border);
+  }
+  .result-label {
+    font-size: 11px;
+    color: var(--text2);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .result-setting {
+    font-family: 'DM Mono', monospace;
+    font-size: 42px;
+    font-weight: 500;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .result-prob {
+    font-size: 15px;
+    color: var(--text2);
+    margin-bottom: 10px;
+  }
+  .result-comment {
+    font-size: 12px;
+    color: var(--text2);
+    line-height: 1.6;
+  }
+
+  /* Setting color classes */
+  .color-s1 { color: var(--s1); }
+  .color-s2 { color: var(--s2); }
+  .color-s3 { color: var(--s3); }
+  .color-s4 { color: var(--s4); }
+  .color-s5 { color: var(--s5); }
+  .color-s6 { color: var(--s6); }
+  .bg-s1 { background: var(--s1); }
+  .bg-s2 { background: var(--s2); }
+  .bg-s3 { background: var(--s3); }
+  .bg-s4 { background: var(--s4); }
+  .bg-s5 { background: var(--s5); }
+  .bg-s6 { background: var(--s6); }
+
+  /* Reset button */
+  .reset-btn {
+    width: 100%;
+    background: none;
+    border: 1px solid var(--border2);
+    border-radius: var(--radius-sm);
+    color: var(--text2);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 14px;
+    padding: 13px;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    margin-top: 4px;
+  }
+  .reset-btn:active { background: var(--bg3); color: var(--text); }
+
+  /* Prob table */
+  .prob-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .prob-table th {
+    color: var(--text3);
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    padding: 0 6px 8px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+  }
+  .prob-table th:first-child { text-align: left; }
+  .prob-table td {
+    padding: 9px 6px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    font-family: 'DM Mono', monospace;
+    color: var(--text2);
+  }
+  .prob-table td:first-child {
+    text-align: left;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 500;
+  }
+  .prob-table tr:last-child td { border-bottom: none; }
+
+  /* History */
+  .history-list { display: flex; flex-direction: column; gap: 8px; }
+  .history-item {
+    background: var(--bg3);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .history-info { flex: 1; }
+  .history-date { font-size: 11px; color: var(--text3); margin-bottom: 3px; }
+  .history-detail { font-size: 13px; color: var(--text2); }
+  .history-result {
+    font-family: 'DM Mono', monospace;
+    font-size: 18px;
+    font-weight: 500;
+  }
+  .history-del {
+    background: none;
+    border: none;
+    color: var(--text3);
+    font-size: 18px;
+    cursor: pointer;
+    padding: 4px;
+    line-height: 1;
+  }
+  .empty-history {
+    text-align: center;
+    color: var(--text3);
+    font-size: 13px;
+    padding: 24px 0;
+  }
+  .save-btn {
+    width: 100%;
+    background: rgba(167,139,250,0.15);
+    border: 1px solid rgba(167,139,250,0.3);
+    border-radius: var(--radius-sm);
+    color: var(--accent);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 13px;
+    cursor: pointer;
+    transition: background 0.15s;
+    margin-top: 4px;
+  }
+  .save-btn:active { background: rgba(167,139,250,0.25); }
+
+  /* Tabs */
+  .tabs {
+    display: flex;
+    gap: 4px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 4px;
+    margin-bottom: 16px;
+  }
+  .tab-btn {
+    flex: 1;
+    background: none;
+    border: none;
+    border-radius: 6px;
+    color: var(--text2);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 9px 4px;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+  .tab-btn.active {
+    background: var(--bg3);
+    color: var(--text);
+  }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* Divider */
+  .divider { height: 1px; background: var(--border); margin: 16px 0; }
+
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-title">My Juggler</div>
+  <div class="header-sub">設定<span>判別</span>ツール</div>
+</div>
+
+<div class="main">
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('judge')">判別</button>
+    <button class="tab-btn" onclick="switchTab('history')">履歴</button>
+    <button class="tab-btn" onclick="switchTab('table')">確率表</button>
+  </div>
+
+  <!-- 判別タブ -->
+  <div id="tab-judge" class="tab-panel active">
+
+    <div class="section">
+      <div class="section-label">データ入力</div>
+      <div class="card">
+        <div class="input-grid">
+          <div class="input-item">
+            <label>G数</label>
+            <div class="stepper" id="st-g">
+              <button class="stepper-btn" onclick="step('g',-100)">−</button>
+              <div class="stepper-val" id="val-g">0</div>
+              <button class="stepper-btn" onclick="step('g',100)">＋</button>
+            </div>
+          </div>
+          <div class="input-item">
+            <label>BB回数</label>
+            <div class="stepper">
+              <button class="stepper-btn" onclick="step('bb',-1)">−</button>
+              <div class="stepper-val" id="val-bb">0</div>
+              <button class="stepper-btn" onclick="step('bb',1)">＋</button>
+            </div>
+          </div>
+          <div class="input-item">
+            <label>RB回数</label>
+            <div class="stepper">
+              <button class="stepper-btn" onclick="step('rb',-1)">−</button>
+              <div class="stepper-val" id="val-rb">0</div>
+              <button class="stepper-btn" onclick="step('rb',1)">＋</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-row">
+          <div class="stat-box">
+            <div class="stat-label">合算確率</div>
+            <div class="stat-value" id="stat-total">—</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">BB確率</div>
+            <div class="stat-value" id="stat-bb">—</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">RB確率</div>
+            <div class="stat-value" id="stat-rb">—</div>
+          </div>
+        </div>
+
+        <!-- Reliability -->
+        <div class="reliability low" id="reliability-box">
+          <div class="reliability-dot"></div>
+          <span id="reliability-text">データを入力してください</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">ベイズ推定 — 各設定の確率</div>
+      <div class="card">
+        <div class="bayes-list" id="bayes-list"></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="result-box" id="result-box">
+        <div class="result-label">最有力設定</div>
+        <div class="result-setting" id="result-setting">—</div>
+        <div class="result-prob" id="result-prob"></div>
+        <div class="result-comment" id="result-comment">G数・BB・RBを入力すると判別します</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <button class="save-btn" onclick="saveHistory()">この結果を履歴に保存</button>
+      <button class="reset-btn" onclick="resetAll()">リセット</button>
+    </div>
+
+  </div>
+
+  <!-- 履歴タブ -->
+  <div id="tab-history" class="tab-panel">
+    <div class="section">
+      <div class="section-label">保存した記録</div>
+      <div id="history-list" class="history-list"></div>
+    </div>
+  </div>
+
+  <!-- 確率表タブ -->
+  <div id="tab-table" class="tab-panel">
+    <div class="section">
+      <div class="section-label">マイジャグラー 設定別確率</div>
+      <div class="card">
+        <table class="prob-table">
+          <thead>
+            <tr>
+              <th>設定</th>
+              <th>BB</th>
+              <th>RB</th>
+              <th>合算</th>
+            </tr>
+          </thead>
+          <tbody id="prob-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-label">判別精度の目安</div>
+      <div class="card">
+        <table class="prob-table">
+          <thead><tr><th>G数</th><th>信頼度</th><th>コメント</th></tr></thead>
+          <tbody>
+            <tr><td>〜1,000G</td><td style="color:var(--red)">低</td><td style="font-family:'Noto Sans JP'">参考程度</td></tr>
+            <tr><td>1,000〜3,000G</td><td style="color:#fb923c">中</td><td style="font-family:'Noto Sans JP'">やや信頼できる</td></tr>
+            <tr><td>3,000〜5,000G</td><td style="color:var(--green)">高</td><td style="font-family:'Noto Sans JP'">比較的信頼できる</td></tr>
+            <tr><td>5,000G〜</td><td style="color:var(--teal)">最高</td><td style="font-family:'Noto Sans JP'">かなり精度が高い</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const SETTINGS = {
+  1: { bb: 1/287, rb: 1/439 },
+  2: { bb: 1/282, rb: 1/364 },
+  3: { bb: 1/273, rb: 1/310 },
+  4: { bb: 1/252, rb: 1/252 },
+  5: { bb: 1/249, rb: 1/220 },
+  6: { bb: 1/240, rb: 1/206 }
+};
+const COLORS = { 1:'#60a5fa', 2:'#34d399', 3:'#a78bfa', 4:'#fb923c', 5:'#f472b6', 6:'#f5c842' };
+const NAMES = { 1:'s1', 2:'s2', 3:'s3', 4:'s4', 5:'s5', 6:'s6' };
+
+let state = { g: 0, bb: 0, rb: 0 };
+let history = JSON.parse(localStorage.getItem('juggler_history') || '[]');
+
+function step(key, delta) {
+  state[key] = Math.max(0, state[key] + delta);
+  if (key === 'bb' || key === 'rb') {
+    if (state.g < (state.bb + state.rb) * 50) state.g = (state.bb + state.rb) * 50;
+  }
+  render();
+}
+
+function resetAll() {
+  state = { g: 0, bb: 0, rb: 0 };
+  render();
+}
+
+function render() {
+  document.getElementById('val-g').textContent = state.g.toLocaleString();
+  document.getElementById('val-bb').textContent = state.bb;
+  document.getElementById('val-rb').textContent = state.rb;
+
+  const total = state.bb + state.rb;
+  document.getElementById('stat-total').textContent = total > 0 && state.g > 0 ? '1/' + Math.round(state.g / total) : '—';
+  document.getElementById('stat-bb').textContent = state.bb > 0 && state.g > 0 ? '1/' + Math.round(state.g / state.bb) : '—';
+  document.getElementById('stat-rb').textContent = state.rb > 0 && state.g > 0 ? '1/' + Math.round(state.g / state.rb) : '—';
+
+  const rel = document.getElementById('reliability-box');
+  const relTxt = document.getElementById('reliability-text');
+  if (state.g === 0) {
+    rel.className = 'reliability low';
+    relTxt.textContent = 'データを入力してください';
+  } else if (state.g < 1000) {
+    rel.className = 'reliability low';
+    relTxt.textContent = 'サンプル不足 — 参考程度です（推奨：3,000G以上）';
+  } else if (state.g < 3000) {
+    rel.className = 'reliability mid';
+    relTxt.textContent = 'やや信頼できます（推奨：3,000G以上）';
+  } else if (state.g < 5000) {
+    rel.className = 'reliability high';
+    relTxt.textContent = '比較的信頼できるデータ量です';
+  } else {
+    rel.className = 'reliability high';
+    relTxt.textContent = '十分なデータ量 — 精度が高い判別が可能です';
+  }
+
+  calcBayes();
+}
+
+function logLik(n, k, p) {
+  if (n === 0) return 0;
+  let ll = 0;
+  for (let i = 0; i < k; i++) ll += Math.log(p);
+  for (let i = 0; i < n - k; i++) ll += Math.log(1 - p);
+  return ll;
+}
+
+function calcBayes() {
+  const G = state.g, BB = state.bb, RB = state.rb;
+  const lls = {};
+  for (let s = 1; s <= 6; s++) {
+    lls[s] = logLik(G, BB, SETTINGS[s].bb) + logLik(G, RB, SETTINGS[s].rb);
+  }
+  const maxLL = Math.max(...Object.values(lls));
+  let sumExp = 0;
+  const unnorm = {};
+  for (let s = 1; s <= 6; s++) { unnorm[s] = Math.exp(lls[s] - maxLL); sumExp += unnorm[s]; }
+  const post = {};
+  for (let s = 1; s <= 6; s++) post[s] = unnorm[s] / sumExp;
+
+  const list = document.getElementById('bayes-list');
+  list.innerHTML = '';
+  for (let s = 1; s <= 6; s++) {
+    const pct = (post[s] * 100);
+    const row = document.createElement('div');
+    row.className = 'bayes-row';
+    row.innerHTML = `
+      <span class="bayes-lbl color-s${s}">設定${s}</span>
+      <div class="bayes-track"><div class="bayes-fill bg-s${s}" style="width:${pct.toFixed(1)}%"></div></div>
+      <span class="bayes-pct">${pct.toFixed(1)}%</span>`;
+    list.appendChild(row);
+  }
+
+  const top = Object.entries(post).sort((a,b) => b[1]-a[1])[0];
+  const topN = parseInt(top[0]);
+  const topPct = (post[topN]*100).toFixed(1);
+  const highPct = ((post[5]+post[6])*100).toFixed(0);
+
+  const rb = document.getElementById('result-box');
+  const rs = document.getElementById('result-setting');
+  const rp = document.getElementById('result-prob');
+  const rc = document.getElementById('result-comment');
+
+  if (G === 0) {
+    rs.textContent = '—';
+    rs.style.color = 'var(--text2)';
+    rp.textContent = '';
+    rc.textContent = 'G数・BB・RBを入力すると判別します';
+    rb.style.background = 'var(--bg2)';
+    rb.style.borderColor = 'var(--border)';
+    return;
+  }
+
+  rs.textContent = '設定' + topN;
+  rs.className = 'result-setting color-s' + topN;
+  rp.textContent = `事後確率 ${topPct}%`;
+
+  let comment = '';
+  const h = parseFloat(highPct);
+  if (G < 1000) comment = 'サンプルが少ないため参考値です。最低3,000Gを目安にしてください。';
+  else if (h > 70) comment = `高設定（5・6）の合算確率 ${highPct}%。高設定の可能性が高い台です！`;
+  else if (h > 40) comment = `高設定（5・6）の合算確率 ${highPct}%。判断が難しい状況です。続行して様子を見ましょう。`;
+  else comment = `高設定（5・6）の合算確率 ${highPct}%。低〜中設定の可能性が高い結果です。`;
+  rc.textContent = comment;
+
+  const colors = { 1:'rgba(96,165,250,0.08)', 2:'rgba(52,211,153,0.08)', 3:'rgba(167,139,250,0.08)', 4:'rgba(251,146,60,0.08)', 5:'rgba(244,114,182,0.08)', 6:'rgba(245,200,66,0.08)' };
+  const borders = { 1:'rgba(96,165,250,0.3)', 2:'rgba(52,211,153,0.3)', 3:'rgba(167,139,250,0.3)', 4:'rgba(251,146,60,0.3)', 5:'rgba(244,114,182,0.3)', 6:'rgba(245,200,66,0.3)' };
+  rb.style.background = colors[topN];
+  rb.style.borderColor = borders[topN];
+}
+
+function saveHistory() {
+  if (state.g === 0) return;
+  const total = state.bb + state.rb;
+  const G = state.g, BB = state.bb, RB = state.rb;
+  const lls = {};
+  for (let s = 1; s <= 6; s++) {
+    lls[s] = logLik(G, BB, SETTINGS[s].bb) + logLik(G, RB, SETTINGS[s].rb);
+  }
+  const maxLL = Math.max(...Object.values(lls));
+  let sumExp = 0;
+  const unnorm = {};
+  for (let s = 1; s <= 6; s++) { unnorm[s] = Math.exp(lls[s] - maxLL); sumExp += unnorm[s]; }
+  const post = {};
+  for (let s = 1; s <= 6; s++) post[s] = unnorm[s] / sumExp;
+  const top = Object.entries(post).sort((a,b)=>b[1]-a[1])[0];
+
+  const now = new Date();
+  const dateStr = `${now.getMonth()+1}/${now.getDate()} ${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}`;
+  history.unshift({
+    date: dateStr,
+    g: state.g, bb: state.bb, rb: state.rb,
+    top: parseInt(top[0]),
+    pct: (post[parseInt(top[0])]*100).toFixed(0)
+  });
+  if (history.length > 20) history = history.slice(0, 20);
+  localStorage.setItem('juggler_history', JSON.stringify(history));
+  renderHistory();
+  switchTab('history');
+}
+
+function deleteHistory(i) {
+  history.splice(i, 1);
+  localStorage.setItem('juggler_history', JSON.stringify(history));
+  renderHistory();
+}
+
+function renderHistory() {
+  const el = document.getElementById('history-list');
+  if (history.length === 0) {
+    el.innerHTML = '<div class="empty-history">まだ記録がありません</div>';
+    return;
+  }
+  el.innerHTML = history.map((h, i) => `
+    <div class="history-item">
+      <div class="history-info">
+        <div class="history-date">${h.date}</div>
+        <div class="history-detail">${h.g.toLocaleString()}G / BB:${h.bb} / RB:${h.rb}</div>
+      </div>
+      <div class="history-result color-s${h.top}">設定${h.top}</div>
+      <button class="history-del" onclick="deleteHistory(${i})">×</button>
+    </div>`).join('');
+}
+
+function buildProbTable() {
+  const tb = document.getElementById('prob-tbody');
+  for (let s = 1; s <= 6; s++) {
+    const d = SETTINGS[s];
+    const comb = 1/(1/d.bb + 1/d.rb);
+    tb.innerHTML += `<tr>
+      <td class="color-s${s}">設定${s}</td>
+      <td>1/${Math.round(1/d.bb)}</td>
+      <td>1/${Math.round(1/d.rb)}</td>
+      <td>1/${Math.round(1/comb)}</td>
+    </tr>`;
+  }
+}
+
+function switchTab(id) {
+  document.querySelectorAll('.tab-btn').forEach((b,i) => {
+    b.classList.toggle('active', ['judge','history','table'][i] === id);
+  });
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  if (id === 'history') renderHistory();
+}
+
+// Init
+buildProbTable();
+render();
+</script>
+</body>
+</html>
