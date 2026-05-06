@@ -130,41 +130,25 @@
   }
   .input-item input[type=number]::placeholder { color: var(--text3); }
 
-  /* Stepper buttons */
-  .stepper {
-    display: flex;
-    align-items: center;
-    gap: 0;
+  /* Number input */
+  .num-input {
+    width: 100%;
     background: var(--bg3);
     border: 1px solid var(--border2);
     border-radius: var(--radius-sm);
-    overflow: hidden;
-  }
-  .stepper-btn {
-    background: none;
-    border: none;
-    color: var(--text2);
-    font-size: 22px;
-    font-weight: 300;
-    width: 44px;
-    height: 52px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.15s, color 0.15s;
-    flex-shrink: 0;
-  }
-  .stepper-btn:active { background: var(--border2); color: var(--text); }
-  .stepper-val {
-    flex: 1;
-    text-align: center;
-    font-family: 'DM Mono', monospace;
-    font-size: 22px;
-    font-weight: 500;
     color: var(--text);
-    line-height: 52px;
+    font-family: 'DM Mono', monospace;
+    font-size: 26px;
+    font-weight: 500;
+    padding: 12px 8px;
+    text-align: center;
+    outline: none;
+    -webkit-appearance: none;
+    transition: border-color 0.2s;
+    display: block;
   }
+  .num-input:focus { border-color: var(--accent); }
+  .num-input::placeholder { color: var(--text3); font-size: 18px; }
 
   /* Stats row */
   .stats-row {
@@ -446,27 +430,15 @@
         <div class="input-grid">
           <div class="input-item">
             <label>G数</label>
-            <div class="stepper" id="st-g">
-              <button class="stepper-btn" onclick="step('g',-100)">−</button>
-              <div class="stepper-val" id="val-g">0</div>
-              <button class="stepper-btn" onclick="step('g',100)">＋</button>
-            </div>
+            <input class="num-input" id="val-g" type="number" inputmode="numeric" pattern="[0-9]*" placeholder="0" min="0" oninput="onInput('g',this.value)">
           </div>
           <div class="input-item">
             <label>BB回数</label>
-            <div class="stepper">
-              <button class="stepper-btn" onclick="step('bb',-1)">−</button>
-              <div class="stepper-val" id="val-bb">0</div>
-              <button class="stepper-btn" onclick="step('bb',1)">＋</button>
-            </div>
+            <input class="num-input" id="val-bb" type="number" inputmode="numeric" pattern="[0-9]*" placeholder="0" min="0" oninput="onInput('bb',this.value)">
           </div>
           <div class="input-item">
             <label>RB回数</label>
-            <div class="stepper">
-              <button class="stepper-btn" onclick="step('rb',-1)">−</button>
-              <div class="stepper-val" id="val-rb">0</div>
-              <button class="stepper-btn" onclick="step('rb',1)">＋</button>
-            </div>
+            <input class="num-input" id="val-rb" type="number" inputmode="numeric" pattern="[0-9]*" placeholder="0" min="0" oninput="onInput('rb',this.value)">
           </div>
         </div>
 
@@ -576,24 +548,24 @@ const NAMES = { 1:'s1', 2:'s2', 3:'s3', 4:'s4', 5:'s5', 6:'s6' };
 let state = { g: 0, bb: 0, rb: 0 };
 let history = JSON.parse(localStorage.getItem('juggler_history') || '[]');
 
-function step(key, delta) {
-  state[key] = Math.max(0, state[key] + delta);
-  if (key === 'bb' || key === 'rb') {
-    if (state.g < (state.bb + state.rb) * 50) state.g = (state.bb + state.rb) * 50;
-  }
-  render();
+function onInput(key, val) {
+  state[key] = Math.max(0, parseInt(val) || 0);
+  renderStats();
 }
 
 function resetAll() {
   state = { g: 0, bb: 0, rb: 0 };
-  render();
+  document.getElementById('val-g').value = '';
+  document.getElementById('val-bb').value = '';
+  document.getElementById('val-rb').value = '';
+  renderStats();
 }
 
 function render() {
-  document.getElementById('val-g').textContent = state.g.toLocaleString();
-  document.getElementById('val-bb').textContent = state.bb;
-  document.getElementById('val-rb').textContent = state.rb;
+  renderStats();
+}
 
+function renderStats() {
   const total = state.bb + state.rb;
   document.getElementById('stat-total').textContent = total > 0 && state.g > 0 ? '1/' + Math.round(state.g / total) : '—';
   document.getElementById('stat-bb').textContent = state.bb > 0 && state.g > 0 ? '1/' + Math.round(state.g / state.bb) : '—';
@@ -771,7 +743,7 @@ function switchTab(id) {
 
 // Init
 buildProbTable();
-render();
+renderStats();
 </script>
 </body>
 </html>
