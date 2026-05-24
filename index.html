@@ -6,154 +6,157 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="ジャグ判別">
-<title>マイジャグラー 設定判別</title>
+<title>ジャグラー 設定判別</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap');
   :root {
-    --bg: #0f0f13; --bg2: #17171e; --bg3: #1f1f28;
-    --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.14);
-    --text: #e8e6f0; --text2: #8e8ca0; --text3: #5a5870;
-    --accent: #a78bfa; --red: #f87171; --green: #34d399; --teal: #22d3c8;
-    --s1: #60a5fa; --s2: #34d399; --s3: #a78bfa; --s4: #fb923c; --s5: #f472b6; --s6: #f5c842;
-    --radius: 14px; --radius-sm: 8px;
+    --bg:#0f0f13; --bg2:#17171e; --bg3:#1f1f28;
+    --border:rgba(255,255,255,0.08); --border2:rgba(255,255,255,0.14);
+    --text:#e8e6f0; --text2:#8e8ca0; --text3:#5a5870;
+    --accent:#a78bfa; --red:#f87171; --green:#34d399; --teal:#22d3c8; --orange:#fb923c;
+    --s1:#60a5fa; --s2:#34d399; --s3:#a78bfa; --s4:#fb923c; --s5:#f472b6; --s6:#f5c842;
+    --radius:14px; --radius-sm:8px;
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  body { font-family: 'Noto Sans JP', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding-bottom: env(safe-area-inset-bottom, 20px); }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:env(safe-area-inset-bottom,20px);}
 
-  /* Header */
-  .header { background: var(--bg2); border-bottom: 1px solid var(--border); padding: 18px 20px 14px; position: sticky; top: 0; z-index: 100; }
-  .header-title { font-size: 13px; font-weight: 500; color: var(--text2); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 2px; }
-  .header-sub { font-size: 19px; font-weight: 700; color: var(--text); }
-  .header-sub span { color: var(--accent); }
+  .header{background:var(--bg2);border-bottom:1px solid var(--border);padding:16px 20px 12px;position:sticky;top:0;z-index:100;}
+  .header-title{font-size:12px;font-weight:500;color:var(--text2);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:2px;}
+  .header-sub{font-size:18px;font-weight:700;color:var(--text);}
+  .header-sub span{color:var(--accent);}
 
-  /* Layout */
-  .main { padding: 20px 16px; max-width: 520px; margin: 0 auto; }
-  .section { margin-bottom: 20px; }
-  .section-label { font-size: 11px; font-weight: 500; color: var(--text3); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 10px; padding-left: 2px; }
-  .card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
-  .divider { height: 1px; background: var(--border); margin: 16px 0; }
+  .main{padding:16px;max-width:520px;margin:0 auto;}
+  .section{margin-bottom:18px;}
+  .section-label{font-size:11px;font-weight:500;color:var(--text3);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:8px;padding-left:2px;}
+  .card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:14px;}
+  .divider{height:1px;background:var(--border);margin:14px 0;}
 
   /* Tabs */
-  .tabs { display: flex; gap: 4px; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 4px; margin-bottom: 16px; }
-  .tab-btn { flex: 1; background: none; border: none; border-radius: 6px; color: var(--text2); font-family: 'Noto Sans JP', sans-serif; font-size: 12px; font-weight: 500; padding: 9px 2px; cursor: pointer; transition: background 0.15s, color 0.15s; }
-  .tab-btn.active { background: var(--bg3); color: var(--text); }
-  .tab-panel { display: none; }
-  .tab-panel.active { display: block; }
+  .tabs{display:flex;gap:4px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:4px;margin-bottom:14px;}
+  .tab-btn{flex:1;background:none;border:none;border-radius:6px;color:var(--text2);font-family:'Noto Sans JP',sans-serif;font-size:12px;font-weight:500;padding:9px 2px;cursor:pointer;transition:background 0.15s,color 0.15s;}
+  .tab-btn.active{background:var(--bg3);color:var(--text);}
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block;}
+
+  /* 機種セレクト */
+  .machine-select-wrap{margin-bottom:12px;}
+  .machine-select{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);color:var(--text);font-family:'Noto Sans JP',sans-serif;font-size:14px;font-weight:500;padding:11px 12px;outline:none;-webkit-appearance:none;appearance:none;cursor:pointer;}
+  .machine-select:focus{border-color:var(--accent);}
 
   /* Input */
-  .input-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-  .input-item label { display: block; font-size: 11px; color: var(--text2); margin-bottom: 6px; font-weight: 500; letter-spacing: 0.06em; }
-  .num-input { width: 100%; background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--radius-sm); color: var(--text); font-family: 'DM Mono', monospace; font-size: 26px; font-weight: 500; padding: 12px 8px; text-align: center; outline: none; -webkit-appearance: none; transition: border-color 0.2s; display: block; }
-  .num-input:focus { border-color: var(--accent); }
-  .num-input::placeholder { color: var(--text3); font-size: 18px; }
+  .input-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+  .input-item label{display:block;font-size:11px;color:var(--text2);margin-bottom:5px;font-weight:500;letter-spacing:0.06em;}
+  .num-input{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);color:var(--text);font-family:'DM Mono',monospace;font-size:22px;font-weight:500;padding:10px 6px;text-align:center;outline:none;-webkit-appearance:none;transition:border-color 0.2s;display:block;}
+  .num-input:focus{border-color:var(--accent);}
+  .num-input::placeholder{color:var(--text3);font-size:16px;}
+  .num-input-sm{font-size:18px;padding:8px 6px;}
 
   /* Stats */
-  .stats-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 12px; }
-  .stat-box { background: var(--bg3); border-radius: var(--radius-sm); padding: 10px 8px; text-align: center; }
-  .stat-label { font-size: 10px; color: var(--text3); letter-spacing: 0.06em; }
-  .stat-value { font-family: 'DM Mono', monospace; font-size: 16px; font-weight: 500; color: var(--text); margin-top: 3px; }
+  .stats-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:10px;}
+  .stat-box{background:var(--bg3);border-radius:var(--radius-sm);padding:8px;text-align:center;}
+  .stat-label{font-size:10px;color:var(--text3);letter-spacing:0.06em;}
+  .stat-value{font-family:'DM Mono',monospace;font-size:14px;font-weight:500;color:var(--text);margin-top:2px;}
 
   /* Reliability */
-  .reliability { display: flex; align-items: center; gap: 8px; margin-top: 12px; padding: 10px 12px; border-radius: var(--radius-sm); font-size: 12px; font-weight: 500; }
-  .reliability.low { background: rgba(248,113,113,0.12); color: var(--red); }
-  .reliability.mid { background: rgba(251,146,60,0.12); color: #fb923c; }
-  .reliability.high { background: rgba(52,211,153,0.12); color: var(--green); }
-  .reliability-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+  .reliability{display:flex;align-items:center;gap:8px;margin-top:10px;padding:9px 12px;border-radius:var(--radius-sm);font-size:12px;font-weight:500;}
+  .reliability.low{background:rgba(248,113,113,0.12);color:var(--red);}
+  .reliability.mid{background:rgba(251,146,60,0.12);color:var(--orange);}
+  .reliability.high{background:rgba(52,211,153,0.12);color:var(--green);}
+  .reliability-dot{width:7px;height:7px;border-radius:50%;background:currentColor;flex-shrink:0;}
 
-  /* Bayes bars */
-  .bayes-list { display: flex; flex-direction: column; gap: 7px; }
-  .bayes-row { display: flex; align-items: center; gap: 10px; }
-  .bayes-lbl { font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500; min-width: 36px; color: var(--text2); }
-  .bayes-track { flex: 1; height: 20px; background: var(--bg3); border-radius: 4px; overflow: hidden; }
-  .bayes-fill { height: 100%; border-radius: 4px; transition: width 0.5s cubic-bezier(0.16,1,0.3,1); }
-  .bayes-pct { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; min-width: 46px; text-align: right; color: var(--text); }
+  /* Bayes */
+  .bayes-list{display:flex;flex-direction:column;gap:6px;}
+  .bayes-row{display:flex;align-items:center;gap:8px;}
+  .bayes-lbl{font-family:'DM Mono',monospace;font-size:12px;font-weight:500;min-width:36px;color:var(--text2);}
+  .bayes-track{flex:1;height:18px;background:var(--bg3);border-radius:4px;overflow:hidden;}
+  .bayes-fill{height:100%;border-radius:4px;transition:width 0.5s cubic-bezier(0.16,1,0.3,1);}
+  .bayes-pct{font-family:'DM Mono',monospace;font-size:12px;font-weight:500;min-width:44px;text-align:right;color:var(--text);}
 
-  /* Result box */
-  .result-box { border-radius: var(--radius); padding: 18px; text-align: center; border: 1px solid var(--border); transition: background 0.4s, border-color 0.4s; }
-  .result-label { font-size: 11px; color: var(--text2); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
-  .result-setting { font-family: 'DM Mono', monospace; font-size: 42px; font-weight: 500; line-height: 1; margin-bottom: 6px; }
-  .result-prob { font-size: 15px; color: var(--text2); margin-bottom: 10px; }
-  .result-comment { font-size: 12px; color: var(--text2); line-height: 1.6; }
+  /* Result */
+  .result-box{border-radius:var(--radius);padding:16px;text-align:center;border:1px solid var(--border);transition:background 0.4s,border-color 0.4s;}
+  .result-label{font-size:11px;color:var(--text2);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;}
+  .result-setting{font-family:'DM Mono',monospace;font-size:38px;font-weight:500;line-height:1;margin-bottom:4px;}
+  .result-prob{font-size:14px;color:var(--text2);margin-bottom:6px;}
+  .result-ev{font-size:15px;font-weight:500;margin-bottom:6px;}
+  .result-comment{font-size:12px;color:var(--text2);line-height:1.6;}
 
-  /* Setting colors */
-  .color-s1 { color: var(--s1); } .color-s2 { color: var(--s2); } .color-s3 { color: var(--s3); }
-  .color-s4 { color: var(--s4); } .color-s5 { color: var(--s5); } .color-s6 { color: var(--s6); }
-  .bg-s1 { background: var(--s1); } .bg-s2 { background: var(--s2); } .bg-s3 { background: var(--s3); }
-  .bg-s4 { background: var(--s4); } .bg-s5 { background: var(--s5); } .bg-s6 { background: var(--s6); }
+  /* EV badge */
+  .ev-pos{color:var(--green);}
+  .ev-neg{color:var(--red);}
+
+  /* Colors */
+  .color-s1{color:var(--s1);} .color-s2{color:var(--s2);} .color-s3{color:var(--s3);}
+  .color-s4{color:var(--s4);} .color-s5{color:var(--s5);} .color-s6{color:var(--s6);}
+  .bg-s1{background:var(--s1);} .bg-s2{background:var(--s2);} .bg-s3{background:var(--s3);}
+  .bg-s4{background:var(--s4);} .bg-s5{background:var(--s5);} .bg-s6{background:var(--s6);}
 
   /* Buttons */
-  .save-btn { width: 100%; background: rgba(167,139,250,0.15); border: 1px solid rgba(167,139,250,0.3); border-radius: var(--radius-sm); color: var(--accent); font-family: 'Noto Sans JP', sans-serif; font-size: 14px; font-weight: 500; padding: 13px; cursor: pointer; transition: background 0.15s; margin-top: 4px; }
-  .save-btn:active { background: rgba(167,139,250,0.25); }
-  .reset-btn { width: 100%; background: none; border: 1px solid var(--border2); border-radius: var(--radius-sm); color: var(--text2); font-family: 'Noto Sans JP', sans-serif; font-size: 14px; padding: 13px; cursor: pointer; transition: background 0.15s; margin-top: 8px; }
-  .reset-btn:active { background: var(--bg3); }
+  .save-btn{width:100%;background:rgba(167,139,250,0.15);border:1px solid rgba(167,139,250,0.3);border-radius:var(--radius-sm);color:var(--accent);font-family:'Noto Sans JP',sans-serif;font-size:14px;font-weight:500;padding:12px;cursor:pointer;transition:background 0.15s;margin-top:4px;}
+  .save-btn:active{background:rgba(167,139,250,0.25);}
+  .reset-btn{width:100%;background:none;border:1px solid var(--border2);border-radius:var(--radius-sm);color:var(--text2);font-family:'Noto Sans JP',sans-serif;font-size:14px;padding:12px;cursor:pointer;margin-top:8px;}
+  .reset-btn:active{background:var(--bg3);}
 
   /* History */
-  .history-list { display: flex; flex-direction: column; gap: 8px; }
-  .history-item { background: var(--bg3); border-radius: var(--radius-sm); padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-  .history-info { flex: 1; }
-  .history-date { font-size: 11px; color: var(--text3); margin-bottom: 3px; }
-  .history-detail { font-size: 13px; color: var(--text2); }
-  .history-result { font-family: 'DM Mono', monospace; font-size: 18px; font-weight: 500; }
-  .history-del { background: none; border: none; color: var(--text3); font-size: 18px; cursor: pointer; padding: 4px; }
-  .empty-history { text-align: center; color: var(--text3); font-size: 13px; padding: 24px 0; }
+  .history-item{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:10px;}
+  .history-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+  .history-date{font-size:11px;color:var(--text3);}
+  .history-machine{font-size:12px;color:var(--accent);}
+  .history-del{background:none;border:none;color:var(--text3);font-size:18px;cursor:pointer;padding:2px 4px;}
+  .history-result{font-family:'DM Mono',monospace;font-size:20px;font-weight:500;}
+  .history-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
+  .history-field label{display:block;font-size:10px;color:var(--text3);margin-bottom:3px;letter-spacing:0.06em;}
+  .history-field input{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:6px;color:var(--text);font-family:'DM Mono',monospace;font-size:15px;font-weight:500;padding:7px 6px;text-align:center;outline:none;-webkit-appearance:none;}
+  .history-field input:focus{border-color:var(--accent);}
+  .history-field input::placeholder{color:var(--text3);font-size:12px;}
+  .history-inferred{display:flex;align-items:center;gap:10px;margin-top:10px;padding:10px 12px;background:var(--bg3);border-radius:var(--radius-sm);}
+  .history-inferred-label{font-size:12px;color:var(--text2);}
+  .history-inferred-val{font-family:'DM Mono',monospace;font-size:16px;font-weight:500;}
+  .empty-history{text-align:center;color:var(--text3);font-size:13px;padding:24px 0;}
+  .add-entry-btn{width:100%;background:rgba(167,139,250,0.10);border:1px dashed rgba(167,139,250,0.3);border-radius:var(--radius-sm);color:var(--accent);font-family:'Noto Sans JP',sans-serif;font-size:13px;padding:12px;cursor:pointer;margin-top:4px;}
+  .add-entry-btn:active{background:rgba(167,139,250,0.2);}
 
   /* Prob table */
-  .prob-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  .prob-table th { color: var(--text3); font-weight: 500; font-size: 11px; letter-spacing: 0.06em; padding: 0 6px 8px; text-align: center; border-bottom: 1px solid var(--border); }
-  .prob-table th:first-child { text-align: left; }
-  .prob-table td { padding: 9px 6px; text-align: center; border-bottom: 1px solid var(--border); font-family: 'DM Mono', monospace; color: var(--text2); }
-  .prob-table td:first-child { text-align: left; font-family: 'Noto Sans JP', sans-serif; font-weight: 500; }
-  .prob-table tr:last-child td { border-bottom: none; }
-
-  /* 台比較 */
-  .machine-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; margin-bottom: 10px; }
-  .machine-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
-  .machine-num-label { font-size: 12px; color: var(--text3); flex-shrink: 0; }
-  .machine-num-input { width: 90px; background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--radius-sm); color: var(--text); font-family: 'DM Mono', monospace; font-size: 16px; font-weight: 500; padding: 7px 8px; text-align: center; outline: none; -webkit-appearance: none; }
-  .machine-num-input:focus { border-color: var(--accent); }
-  .machine-del { margin-left: auto; background: none; border: none; color: var(--text3); font-size: 20px; cursor: pointer; padding: 2px 6px; }
-  .machine-inputs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-  .machine-input-item label { display: block; font-size: 11px; color: var(--text2); margin-bottom: 4px; font-weight: 500; letter-spacing: 0.05em; }
-  .machine-input-item input { width: 100%; background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--radius-sm); color: var(--text); font-family: 'DM Mono', monospace; font-size: 18px; font-weight: 500; padding: 9px 6px; text-align: center; outline: none; -webkit-appearance: none; transition: border-color 0.2s; }
-  .machine-input-item input:focus { border-color: var(--accent); }
-  .add-machine-btn { width: 100%; background: none; border: 1px dashed var(--border2); border-radius: var(--radius-sm); color: var(--text2); font-family: 'Noto Sans JP', sans-serif; font-size: 14px; padding: 13px; cursor: pointer; transition: background 0.15s; margin-top: 4px; }
-  .add-machine-btn:active { background: var(--bg3); }
-  .add-machine-btn:disabled { opacity: 0.35; cursor: not-allowed; }
-
-  /* Ranking */
-  .rank-item { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 8px; display: flex; align-items: center; gap: 12px; }
-  .rank-badge { font-size: 22px; min-width: 30px; text-align: center; }
-  .rank-info { flex: 1; }
-  .rank-machine { font-size: 15px; font-weight: 500; color: var(--text); margin-bottom: 3px; }
-  .rank-detail { font-size: 12px; color: var(--text2); }
-  .rank-score { text-align: right; }
-  .rank-score-val { font-family: 'DM Mono', monospace; font-size: 20px; font-weight: 500; }
-  .rank-score-label { font-size: 10px; color: var(--text3); margin-top: 2px; }
-  .score-pos { color: var(--green); }
-  .score-neg { color: var(--red); }
+  .prob-table{width:100%;border-collapse:collapse;font-size:12px;}
+  .prob-table th{color:var(--text3);font-weight:500;font-size:10px;letter-spacing:0.06em;padding:0 4px 6px;text-align:center;border-bottom:1px solid var(--border);}
+  .prob-table th:first-child{text-align:left;}
+  .prob-table td{padding:7px 4px;text-align:center;border-bottom:1px solid var(--border);font-family:'DM Mono',monospace;color:var(--text2);}
+  .prob-table td:first-child{text-align:left;font-family:'Noto Sans JP',sans-serif;font-weight:500;}
+  .prob-table tr:last-child td{border-bottom:none;}
+  .table-machine-header td{padding:10px 4px 4px;font-size:11px;letter-spacing:0.08em;font-family:'Noto Sans JP',sans-serif;font-weight:500;border-bottom:1px solid var(--border);}
 
   input[type=number]::-webkit-inner-spin-button,
-  input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; }
+  input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;}
 </style>
 </head>
 <body>
 
 <div class="header">
-  <div class="header-title">My Juggler</div>
+  <div class="header-title">Juggler Analyzer</div>
   <div class="header-sub">設定<span>判別</span>ツール</div>
 </div>
 
 <div class="main">
-
   <div class="tabs">
     <button class="tab-btn active" onclick="switchTab('judge')">判別</button>
-    <button class="tab-btn" onclick="switchTab('compare')">台比較</button>
     <button class="tab-btn" onclick="switchTab('history')">履歴</button>
     <button class="tab-btn" onclick="switchTab('table')">確率表</button>
   </div>
 
   <!-- 判別タブ -->
   <div id="tab-judge" class="tab-panel active">
+    <div class="section">
+      <div class="section-label">機種選択</div>
+      <div class="machine-select-wrap">
+        <select class="machine-select" id="machine-select" onchange="onMachineChange()">
+          <option value="girls">ジャグラーガールズSS</option>
+          <option value="my" selected>マイジャグラーⅤ</option>
+          <option value="happy">ハッピージャグラーVⅢ</option>
+          <option value="gogo">GOGOジャグラー3</option>
+          <option value="neo">ネオアイムジャグラーEX</option>
+        </select>
+      </div>
+    </div>
+
     <div class="section">
       <div class="section-label">データ入力</div>
       <div class="card">
@@ -204,48 +207,38 @@
         <div class="result-label">最有力設定</div>
         <div class="result-setting" id="result-setting">—</div>
         <div class="result-prob" id="result-prob"></div>
-        <div class="result-comment" id="result-comment">G数・BB・RBを入力すると判別します</div>
+        <div class="result-ev" id="result-ev"></div>
+        <div class="result-comment" id="result-comment">機種を選んでG数・BB・RBを入力してください</div>
       </div>
     </div>
 
     <div class="section">
-      <button class="save-btn" onclick="saveHistory()">この結果を履歴に保存</button>
+      <button class="save-btn" onclick="saveToHistory()">この結果を履歴に保存</button>
       <button class="reset-btn" onclick="resetAll()">リセット</button>
-    </div>
-  </div>
-
-  <!-- 台比較タブ -->
-  <div id="tab-compare" class="tab-panel">
-    <div class="section">
-      <div class="section-label">台データ入力（最大10台）</div>
-      <div id="machine-list"></div>
-      <button class="add-machine-btn" onclick="addMachine()" id="add-btn">＋ 台を追加</button>
-    </div>
-    <div id="ranking-section" style="display:none;">
-      <div class="divider"></div>
-      <div class="section-label">期待値ランキング（1,000G想定）</div>
-      <div id="ranking-list"></div>
-      <p style="font-size:11px;color:var(--text3);margin-top:10px;">※期待差枚数＝推定設定の機械割から加重平均。プラスが大きいほど勝ちやすい台。</p>
     </div>
   </div>
 
   <!-- 履歴タブ -->
   <div id="tab-history" class="tab-panel">
     <div class="section">
+      <div class="section-label">記録を追加</div>
+      <button class="add-entry-btn" onclick="addHistoryEntry()">＋ 新しい記録を追加</button>
+    </div>
+    <div class="section">
       <div class="section-label">保存した記録</div>
-      <div id="history-list" class="history-list"></div>
+      <div id="history-list"></div>
     </div>
   </div>
 
   <!-- 確率表タブ -->
   <div id="tab-table" class="tab-panel">
     <div class="section">
-      <div class="section-label">マイジャグラー 設定別確率</div>
-      <div class="card">
+      <div class="section-label">機種別設定確率表</div>
+      <div class="card" style="overflow-x:auto;">
         <table class="prob-table">
           <thead>
             <tr>
-              <th>設定</th><th>BB</th><th>RB</th><th>合算</th><th>機械割</th>
+              <th>設定</th><th>BB</th><th>RB</th><th>合算</th><th>機械割</th><th>差枚/時</th>
             </tr>
           </thead>
           <tbody id="prob-tbody"></tbody>
@@ -259,7 +252,7 @@
           <thead><tr><th>G数</th><th>信頼度</th><th>コメント</th></tr></thead>
           <tbody>
             <tr><td>〜1,000G</td><td style="color:var(--red)">低</td><td style="font-family:'Noto Sans JP'">参考程度</td></tr>
-            <tr><td>1,000〜3,000G</td><td style="color:#fb923c">中</td><td style="font-family:'Noto Sans JP'">やや信頼できる</td></tr>
+            <tr><td>1,000〜3,000G</td><td style="color:var(--orange)">中</td><td style="font-family:'Noto Sans JP'">やや信頼できる</td></tr>
             <tr><td>3,000〜5,000G</td><td style="color:var(--green)">高</td><td style="font-family:'Noto Sans JP'">比較的信頼できる</td></tr>
             <tr><td>5,000G〜</td><td style="color:var(--teal)">最高</td><td style="font-family:'Noto Sans JP'">かなり精度が高い</td></tr>
           </tbody>
@@ -267,357 +260,356 @@
       </div>
     </div>
   </div>
-
 </div>
 
 <script>
-// 機種定義
 const MACHINES = {
-  happy: {
-    name: 'ハッピージャグラーVIII',
-    short: 'ハッピー',
-    settings: {
-      1: { bb: 1/273.1, rb: 1/397.2, payout: 0.9760 },
-      2: { bb: 1/270.8, rb: 1/362.1, payout: 0.9871 },
-      3: { bb: 1/263.2, rb: 1/332.7, payout: 1.0051 },
-      4: { bb: 1/254.0, rb: 1/300.6, payout: 1.0347 },
-      5: { bb: 1/239.2, rb: 1/273.1, payout: 1.0648 },
-      6: { bb: 1/226.0, rb: 1/256.0, payout: 1.0912 }
+  girls: {
+    name:'ジャグラーガールズSS',
+    settings:{
+      1:{bb:1/273.1,rb:1/381.0,payout:0.9783,diff:-55},
+      2:{bb:1/270.8,rb:1/350.5,payout:0.9875,diff:-32},
+      3:{bb:1/260.1,rb:1/316.6,payout:1.0080,diff:20},
+      4:{bb:1/250.1,rb:1/281.3,payout:1.0311,diff:79},
+      5:{bb:1/243.6,rb:1/270.8,payout:1.0494,diff:126},
+      6:{bb:1/226.0,rb:1/252.1,payout:1.0853,diff:218}
     }
   },
   my: {
-    name: 'マイジャグラーV',
-    short: 'マイジャグ',
-    settings: {
-      1: { bb: 1/273.1, rb: 1/409.6, payout: 0.9785 },
-      2: { bb: 1/270.8, rb: 1/385.5, payout: 0.9888 },
-      3: { bb: 1/266.4, rb: 1/336.1, payout: 1.0080 },
-      4: { bb: 1/254.0, rb: 1/290.0, payout: 1.0377 },
-      5: { bb: 1/240.1, rb: 1/268.6, payout: 1.0639 },
-      6: { bb: 1/229.1, rb: 1/229.1, payout: 1.1053 }
+    name:'マイジャグラーⅤ',
+    settings:{
+      1:{bb:1/273.1,rb:1/409.6,payout:0.9785,diff:-55},
+      2:{bb:1/270.8,rb:1/385.5,payout:0.9888,diff:-28},
+      3:{bb:1/266.4,rb:1/336.1,payout:1.0080,diff:20},
+      4:{bb:1/254.0,rb:1/290.0,payout:1.0377,diff:96},
+      5:{bb:1/240.1,rb:1/268.6,payout:1.0639,diff:163},
+      6:{bb:1/229.1,rb:1/229.1,payout:1.1053,diff:269}
+    }
+  },
+  happy: {
+    name:'ハッピージャグラーVⅢ',
+    settings:{
+      1:{bb:1/273.1,rb:1/397.2,payout:0.9760,diff:-61},
+      2:{bb:1/270.8,rb:1/362.1,payout:0.9871,diff:-33},
+      3:{bb:1/263.2,rb:1/332.7,payout:1.0051,diff:13},
+      4:{bb:1/254.0,rb:1/300.6,payout:1.0347,diff:88},
+      5:{bb:1/239.2,rb:1/273.1,payout:1.0648,diff:165},
+      6:{bb:1/226.0,rb:1/256.0,payout:1.0912,diff:232}
+    }
+  },
+  gogo: {
+    name:'GOGOジャグラー3',
+    settings:{
+      1:{bb:1/259.0,rb:1/354.2,payout:0.9802,diff:-51},
+      2:{bb:1/258.0,rb:1/332.7,payout:0.9906,diff:-24},
+      3:{bb:1/257.0,rb:1/306.2,payout:1.0035,diff:9},
+      4:{bb:1/254.0,rb:1/268.6,payout:1.0253,diff:65},
+      5:{bb:1/247.3,rb:1/247.3,payout:1.0475,diff:121},
+      6:{bb:1/234.9,rb:1/234.9,payout:1.0748,diff:191}
+    }
+  },
+  neo: {
+    name:'ネオアイムジャグラーEX',
+    settings:{
+      1:{bb:1/273.1,rb:1/439.8,payout:0.9783,diff:-55},
+      2:{bb:1/269.7,rb:1/399.6,payout:0.9887,diff:-29},
+      3:{bb:1/269.7,rb:1/331.0,payout:1.0043,diff:11},
+      4:{bb:1/259.0,rb:1/315.1,payout:1.0208,diff:53},
+      5:{bb:1/259.0,rb:1/255.0,payout:1.0429,diff:109},
+      6:{bb:1/255.0,rb:1/255.0,payout:1.0654,diff:167}
     }
   }
 };
 
-// 台番号から機種を判定
-function getMachineType(numStr) {
-  const n = parseInt(numStr);
-  if (!isNaN(n)) {
-    if (n >= 528 && n <= 531) return 'happy';
-    if (n >= 457 && n <= 471) return 'my';
-  }
-  return null; // 不明
-}
+const COLORS={1:'#60a5fa',2:'#34d399',3:'#a78bfa',4:'#fb923c',5:'#f472b6',6:'#f5c842'};
+const BG_COLORS={1:'rgba(96,165,250,0.08)',2:'rgba(52,211,153,0.08)',3:'rgba(167,139,250,0.08)',4:'rgba(251,146,60,0.08)',5:'rgba(244,114,182,0.08)',6:'rgba(245,200,66,0.08)'};
+const BD_COLORS={1:'rgba(96,165,250,0.3)',2:'rgba(52,211,153,0.3)',3:'rgba(167,139,250,0.3)',4:'rgba(251,146,60,0.3)',5:'rgba(244,114,182,0.3)',6:'rgba(245,200,66,0.3)'};
 
-const COLORS = { 1:'#60a5fa', 2:'#34d399', 3:'#a78bfa', 4:'#fb923c', 5:'#f472b6', 6:'#f5c842' };
+let state={g:0,bb:0,rb:0};
+let selectedMachine='my';
+let historyData=JSON.parse(localStorage.getItem('juggler_history_v2')||'[]');
+let historyIdCounter=historyData.reduce((m,h)=>Math.max(m,h.id||0),0);
 
-// 後方互換：単体判別タブ用（マイジャグラーVをデフォルト）
-const SETTINGS = MACHINES.my.settings;
-const PAYOUT = Object.fromEntries(Object.entries(MACHINES.my.settings).map(([s,d]) => [s, d.payout]));
+function getSettings(){return MACHINES[selectedMachine].settings;}
 
-// ---- 判別タブ ----
-let state = { g: 0, bb: 0, rb: 0 };
-let history = JSON.parse(localStorage.getItem('juggler_history') || '[]');
-
-function onInput(key, val) {
-  state[key] = Math.max(0, parseInt(val) || 0);
+function onMachineChange(){
+  selectedMachine=document.getElementById('machine-select').value;
   renderStats();
 }
 
-function resetAll() {
-  state = { g: 0, bb: 0, rb: 0 };
-  document.getElementById('val-g').value = '';
-  document.getElementById('val-bb').value = '';
-  document.getElementById('val-rb').value = '';
+function onInput(key,val){
+  state[key]=Math.max(0,parseInt(val)||0);
   renderStats();
 }
 
-function renderStats() {
-  const total = state.bb + state.rb;
-  document.getElementById('stat-total').textContent = total > 0 && state.g > 0 ? '1/' + Math.round(state.g / total) : '—';
-  document.getElementById('stat-bb').textContent = state.bb > 0 && state.g > 0 ? '1/' + Math.round(state.g / state.bb) : '—';
-  document.getElementById('stat-rb').textContent = state.rb > 0 && state.g > 0 ? '1/' + Math.round(state.g / state.rb) : '—';
-
-  const rel = document.getElementById('reliability-box');
-  const relTxt = document.getElementById('reliability-text');
-  if (state.g === 0) {
-    rel.className = 'reliability low'; relTxt.textContent = 'データを入力してください';
-  } else if (state.g < 1000) {
-    rel.className = 'reliability low'; relTxt.textContent = 'サンプル不足 — 参考程度です（推奨：3,000G以上）';
-  } else if (state.g < 3000) {
-    rel.className = 'reliability mid'; relTxt.textContent = 'やや信頼できます（推奨：3,000G以上）';
-  } else if (state.g < 5000) {
-    rel.className = 'reliability high'; relTxt.textContent = '比較的信頼できるデータ量です';
-  } else {
-    rel.className = 'reliability high'; relTxt.textContent = '十分なデータ量 — 精度が高い判別が可能です';
-  }
-  calcBayes();
+function resetAll(){
+  state={g:0,bb:0,rb:0};
+  ['val-g','val-bb','val-rb'].forEach(id=>document.getElementById(id).value='');
+  renderStats();
 }
 
-function logLik(n, k, p) {
-  if (n === 0) return 0;
-  let ll = 0;
-  for (let i = 0; i < k; i++) ll += Math.log(p);
-  for (let i = 0; i < n - k; i++) ll += Math.log(1 - p);
+function logLik(n,k,p){
+  if(n===0)return 0;
+  let ll=0;
+  for(let i=0;i<k;i++)ll+=Math.log(p);
+  for(let i=0;i<n-k;i++)ll+=Math.log(1-p);
   return ll;
 }
 
-function calcPostProb(g, bb, rb, settings) {
-  settings = settings || SETTINGS;
-  const lls = {};
-  for (let s = 1; s <= 6; s++) {
-    const d = settings[s];
-    let ll = logLik(g, bb, d.bb) + logLik(g, rb, d.rb);
-    if (bb > 0) {
-      const totalBonus = bb + rb;
-      const theoreticalRbRate = d.rb / (d.bb + d.rb);
-      ll += logLik(totalBonus, rb, theoreticalRbRate);
+function calcPostProb(g,bb,rb,settings){
+  settings=settings||getSettings();
+  const lls={};
+  for(let s=1;s<=6;s++){
+    const d=settings[s];
+    let ll=logLik(g,bb,d.bb)+logLik(g,rb,d.rb);
+    if(bb>0){
+      const tot=bb+rb;
+      const rbRate=d.rb/(d.bb+d.rb);
+      ll+=logLik(tot,rb,rbRate);
     }
-    lls[s] = ll;
+    lls[s]=ll;
   }
-  const maxLL = Math.max(...Object.values(lls));
-  let sumExp = 0;
-  const unnorm = {};
-  for (let s = 1; s <= 6; s++) { unnorm[s] = Math.exp(lls[s] - maxLL); sumExp += unnorm[s]; }
-  const post = {};
-  for (let s = 1; s <= 6; s++) post[s] = unnorm[s] / sumExp;
+  const maxLL=Math.max(...Object.values(lls));
+  let sumExp=0;
+  const unnorm={};
+  for(let s=1;s<=6;s++){unnorm[s]=Math.exp(lls[s]-maxLL);sumExp+=unnorm[s];}
+  const post={};
+  for(let s=1;s<=6;s++)post[s]=unnorm[s]/sumExp;
   return post;
 }
 
-function calcBayes() {
-  const G = state.g, BB = state.bb, RB = state.rb;
-  const post = calcPostProb(G, BB, RB);
+function calcWeightedEV(post,settings){
+  settings=settings||getSettings();
+  let ev=0;
+  for(let s=1;s<=6;s++)ev+=post[s]*(3000*(settings[s].payout-1));
+  return Math.round(ev);
+}
 
-  const list = document.getElementById('bayes-list');
-  list.innerHTML = '';
-  for (let s = 1; s <= 6; s++) {
-    const pct = post[s] * 100;
-    const row = document.createElement('div');
-    row.className = 'bayes-row';
-    row.innerHTML = `
-      <span class="bayes-lbl color-s${s}">設定${s}</span>
-      <div class="bayes-track"><div class="bayes-fill bg-s${s}" style="width:${pct.toFixed(1)}%"></div></div>
-      <span class="bayes-pct">${pct.toFixed(1)}%</span>`;
-    list.appendChild(row);
-  }
+function renderStats(){
+  const {g,bb,rb}=state;
+  const tot=bb+rb;
+  document.getElementById('stat-total').textContent=tot>0&&g>0?'1/'+Math.round(g/tot):'—';
+  document.getElementById('stat-bb').textContent=bb>0&&g>0?'1/'+Math.round(g/bb):'—';
+  document.getElementById('stat-rb').textContent=rb>0&&g>0?'1/'+Math.round(g/rb):'—';
 
-  const top = parseInt(Object.entries(post).sort((a,b) => b[1]-a[1])[0][0]);
-  const topPct = (post[top]*100).toFixed(1);
-  const highPct = ((post[5]+post[6])*100).toFixed(0);
+  const rel=document.getElementById('reliability-box');
+  const relTxt=document.getElementById('reliability-text');
+  if(g===0){rel.className='reliability low';relTxt.textContent='データを入力してください';}
+  else if(g<1000){rel.className='reliability low';relTxt.textContent='サンプル不足（推奨：3,000G以上）';}
+  else if(g<3000){rel.className='reliability mid';relTxt.textContent='やや信頼できます（推奨：3,000G以上）';}
+  else if(g<5000){rel.className='reliability high';relTxt.textContent='比較的信頼できるデータ量です';}
+  else{rel.className='reliability high';relTxt.textContent='十分なデータ量 — 高精度な判別が可能です';}
 
-  const rb = document.getElementById('result-box');
-  const rs = document.getElementById('result-setting');
-  const rp = document.getElementById('result-prob');
-  const rc = document.getElementById('result-comment');
-
-  if (G === 0) {
-    rs.textContent = '—'; rs.className = 'result-setting';
-    rp.textContent = ''; rc.textContent = 'G数・BB・RBを入力すると判別します';
-    rb.style.background = 'var(--bg2)'; rb.style.borderColor = 'var(--border)';
+  if(g===0){
+    document.getElementById('bayes-list').innerHTML='';
+    document.getElementById('result-setting').textContent='—';
+    document.getElementById('result-setting').className='result-setting';
+    document.getElementById('result-prob').textContent='';
+    document.getElementById('result-ev').textContent='';
+    document.getElementById('result-comment').textContent='機種を選んでG数・BB・RBを入力してください';
+    const rb2=document.getElementById('result-box');
+    rb2.style.background='var(--bg2)';rb2.style.borderColor='var(--border)';
     return;
   }
 
-  rs.textContent = '設定' + top;
-  rs.className = 'result-setting color-s' + top;
-  rp.textContent = '事後確率 ' + topPct + '%';
+  const post=calcPostProb(g,bb,rb);
+  const settings=getSettings();
 
-  let ratioComment = '';
-  if (BB > 0 && RB > 0) {
-    const r = RB / BB;
-    ratioComment = r >= 1.05 ? ' RB多め→高設定寄り' : r >= 0.85 ? ' BB/RBバランス良好' : ' BB多め→低設定寄り';
+  // Bayes bars
+  const list=document.getElementById('bayes-list');
+  list.innerHTML='';
+  for(let s=1;s<=6;s++){
+    const pct=post[s]*100;
+    const row=document.createElement('div');
+    row.className='bayes-row';
+    row.innerHTML=`<span class="bayes-lbl color-s${s}">設定${s}</span><div class="bayes-track"><div class="bayes-fill bg-s${s}" style="width:${pct.toFixed(1)}%"></div></div><span class="bayes-pct">${pct.toFixed(1)}%</span>`;
+    list.appendChild(row);
   }
 
-  const h = parseFloat(highPct);
-  let comment = '';
-  if (G < 1000) comment = 'サンプルが少ないため参考値です。最低3,000Gを目安に。';
-  else if (h > 70) comment = '高設定（5・6）確率 ' + highPct + '%。高設定の可能性大！';
-  else if (h > 40) comment = '高設定（5・6）確率 ' + highPct + '%。判断難しい状況です。';
-  else comment = '高設定（5・6）確率 ' + highPct + '%。低〜中設定の可能性が高い。';
-  rc.textContent = comment + ratioComment;
+  const top=parseInt(Object.entries(post).sort((a,b)=>b[1]-a[1])[0][0]);
+  const topPct=(post[top]*100).toFixed(1);
+  const ev=calcWeightedEV(post,settings);
+  const highPct=((post[5]+post[6])*100).toFixed(0);
 
-  const colors = {1:'rgba(96,165,250,0.08)',2:'rgba(52,211,153,0.08)',3:'rgba(167,139,250,0.08)',4:'rgba(251,146,60,0.08)',5:'rgba(244,114,182,0.08)',6:'rgba(245,200,66,0.08)'};
-  const borders = {1:'rgba(96,165,250,0.3)',2:'rgba(52,211,153,0.3)',3:'rgba(167,139,250,0.3)',4:'rgba(251,146,60,0.3)',5:'rgba(244,114,182,0.3)',6:'rgba(245,200,66,0.3)'};
-  rb.style.background = colors[top];
-  rb.style.borderColor = borders[top];
+  const rbox=document.getElementById('result-box');
+  document.getElementById('result-setting').textContent='設定'+top;
+  document.getElementById('result-setting').className='result-setting color-s'+top;
+  document.getElementById('result-prob').textContent='事後確率 '+topPct+'%';
+
+  const evEl=document.getElementById('result-ev');
+  const sign=ev>=0?'+':'';
+  evEl.innerHTML=`期待値 <span class="${ev>=0?'ev-pos':'ev-neg'}">${sign}${ev}枚</span> <span style="font-size:12px;color:var(--text2);">/ 1,000G</span>`;
+
+  let ratioNote='';
+  if(bb>0&&rb>0){const r=rb/bb;ratioNote=r>=1.05?' RB多め→高設定寄り':r>=0.85?' バランス良好':' BB多め→低設定寄り';}
+  const h=parseFloat(highPct);
+  let comment='';
+  if(g<1000)comment='サンプルが少ないため参考値です。';
+  else if(h>70)comment='高設定（5・6）確率 '+highPct+'%。高設定の可能性大！';
+  else if(h>40)comment='高設定（5・6）確率 '+highPct+'%。判断が難しい状況です。';
+  else comment='高設定（5・6）確率 '+highPct+'%。低〜中設定の可能性が高い。';
+  document.getElementById('result-comment').textContent=comment+ratioNote;
+
+  rbox.style.background=BG_COLORS[top];
+  rbox.style.borderColor=BD_COLORS[top];
 }
 
-function saveHistory() {
-  if (state.g === 0) return;
-  const post = calcPostProb(state.g, state.bb, state.rb);
-  const top = parseInt(Object.entries(post).sort((a,b) => b[1]-a[1])[0][0]);
-  const now = new Date();
-  const dateStr = (now.getMonth()+1) + '/' + now.getDate() + ' ' + now.getHours() + ':' + String(now.getMinutes()).padStart(2,'0');
-  history.unshift({ date: dateStr, g: state.g, bb: state.bb, rb: state.rb, top, pct: (post[top]*100).toFixed(0) });
-  if (history.length > 20) history = history.slice(0, 20);
-  localStorage.setItem('juggler_history', JSON.stringify(history));
-  renderHistory();
+function saveToHistory(){
+  if(state.g===0)return;
+  const post=calcPostProb(state.g,state.bb,state.rb);
+  const top=parseInt(Object.entries(post).sort((a,b)=>b[1]-a[1])[0][0]);
+  const ev=calcWeightedEV(post);
+  const now=new Date();
+  const dateStr=(now.getMonth()+1)+'/'+now.getDate()+' '+now.getHours()+':'+String(now.getMinutes()).padStart(2,'0');
+  const entry={
+    id:++historyIdCounter,
+    date:dateStr,
+    machine:selectedMachine,
+    machineName:MACHINES[selectedMachine].name,
+    g:state.g,bb:state.bb,rb:state.rb,
+    top,topPct:(post[top]*100).toFixed(0),ev,
+    playG:'',budo:'',cherry:'',bbCount:'',rbCount:''
+  };
+  historyData.unshift(entry);
+  if(historyData.length>50)historyData=historyData.slice(0,50);
+  saveHistory();
+  renderHistoryList();
   switchTab('history');
 }
 
-function deleteHistory(i) {
-  history.splice(i, 1);
-  localStorage.setItem('juggler_history', JSON.stringify(history));
-  renderHistory();
+function addHistoryEntry(){
+  const now=new Date();
+  const dateStr=(now.getMonth()+1)+'/'+now.getDate()+' '+now.getHours()+':'+String(now.getMinutes()).padStart(2,'0');
+  const entry={
+    id:++historyIdCounter,
+    date:dateStr,
+    machine:selectedMachine,
+    machineName:MACHINES[selectedMachine].name,
+    g:0,bb:0,rb:0,top:null,topPct:'—',ev:null,
+    playG:'',budo:'',cherry:'',bbCount:'',rbCount:''
+  };
+  historyData.unshift(entry);
+  saveHistory();
+  renderHistoryList();
 }
 
-function renderHistory() {
-  const el = document.getElementById('history-list');
-  if (history.length === 0) { el.innerHTML = '<div class="empty-history">まだ記録がありません</div>'; return; }
-  el.innerHTML = history.map((h, i) => `
+function updateHistoryField(id,key,val){
+  const entry=historyData.find(h=>h.id===id);
+  if(!entry)return;
+  entry[key]=val;
+  // bbCountかrbCountかplayGが入力されたら推定を更新
+  const g=parseInt(entry.playG)||0;
+  const bb=parseInt(entry.bbCount)||0;
+  const rb=parseInt(entry.rbCount)||0;
+  if(g>0){
+    const settings=MACHINES[entry.machine]?MACHINES[entry.machine].settings:MACHINES.my.settings;
+    const post=calcPostProb(g,bb,rb,settings);
+    entry.top=parseInt(Object.entries(post).sort((a,b)=>b[1]-a[1])[0][0]);
+    entry.topPct=(post[entry.top]*100).toFixed(0);
+    entry.ev=calcWeightedEV(post,settings);
+    entry.g=g;entry.bb=bb;entry.rb=rb;
+  }
+  saveHistory();
+  // 推定結果表示だけ更新
+  const infEl=document.getElementById('hist-inf-'+id);
+  if(infEl&&entry.top){
+    infEl.innerHTML=historyInferredHTML(entry);
+  }
+}
+
+function historyInferredHTML(entry){
+  if(!entry.top||entry.g===0)return `<span class="history-inferred-label">推定設定</span><span class="history-inferred-val" style="color:var(--text3)">—</span>`;
+  const sign=entry.ev>=0?'+':'';
+  const evColor=entry.ev>=0?'var(--green)':'var(--red)';
+  return `<span class="history-inferred-label">推定</span><span class="history-inferred-val color-s${entry.top}">設定${entry.top}</span><span class="history-inferred-label" style="margin-left:10px;">確率</span><span class="history-inferred-val" style="margin-left:4px;">${entry.topPct}%</span><span class="history-inferred-label" style="margin-left:10px;">期待値</span><span class="history-inferred-val" style="margin-left:4px;color:${evColor}">${sign}${entry.ev}枚</span>`;
+}
+
+function deleteHistoryEntry(id){
+  historyData=historyData.filter(h=>h.id!==id);
+  saveHistory();
+  renderHistoryList();
+}
+
+function saveHistory(){
+  localStorage.setItem('juggler_history_v2',JSON.stringify(historyData));
+}
+
+function renderHistoryList(){
+  const el=document.getElementById('history-list');
+  if(historyData.length===0){el.innerHTML='<div class="empty-history">まだ記録がありません</div>';return;}
+  el.innerHTML=historyData.map(entry=>`
     <div class="history-item">
-      <div class="history-info">
-        <div class="history-date">${h.date}</div>
-        <div class="history-detail">${h.g.toLocaleString()}G / BB:${h.bb} / RB:${h.rb}</div>
+      <div class="history-header">
+        <div>
+          <div class="history-date">${entry.date}</div>
+          <div class="history-machine">${entry.machineName||'—'}</div>
+        </div>
+        <button class="history-del" onclick="deleteHistoryEntry(${entry.id})">×</button>
       </div>
-      <div class="history-result color-s${h.top}">設定${h.top}</div>
-      <button class="history-del" onclick="deleteHistory(${i})">×</button>
+      <div class="history-grid">
+        <div class="history-field">
+          <label>プレイG</label>
+          <input type="number" inputmode="numeric" placeholder="0" value="${entry.playG||''}" oninput="updateHistoryField(${entry.id},'playG',this.value)">
+        </div>
+        <div class="history-field">
+          <label>BB</label>
+          <input type="number" inputmode="numeric" placeholder="0" value="${entry.bbCount||''}" oninput="updateHistoryField(${entry.id},'bbCount',this.value)">
+        </div>
+        <div class="history-field">
+          <label>RB</label>
+          <input type="number" inputmode="numeric" placeholder="0" value="${entry.rbCount||''}" oninput="updateHistoryField(${entry.id},'rbCount',this.value)">
+        </div>
+        <div class="history-field">
+          <label>ブドウ</label>
+          <input type="number" inputmode="numeric" placeholder="0" value="${entry.budo||''}" oninput="updateHistoryField(${entry.id},'budo',this.value)">
+        </div>
+        <div class="history-field">
+          <label>チェリー</label>
+          <input type="number" inputmode="numeric" placeholder="0" value="${entry.cherry||''}" oninput="updateHistoryField(${entry.id},'cherry',this.value)">
+        </div>
+        <div class="history-field">
+          <label>差枚</label>
+          <input type="number" inputmode="numeric" placeholder="0" value="${entry.diff||''}" oninput="updateHistoryField(${entry.id},'diff',this.value)">
+        </div>
+      </div>
+      <div class="history-inferred" id="hist-inf-${entry.id}">
+        ${historyInferredHTML(entry)}
+      </div>
     </div>`).join('');
 }
 
-function buildProbTable() {
-  const tb = document.getElementById('prob-tbody');
-  ['happy','my'].forEach(type => {
-    const m = MACHINES[type];
-    // 機種名ヘッダー行
-    tb.innerHTML += `<tr><td colspan="5" style="padding:10px 0 4px;font-size:11px;letter-spacing:0.08em;color:${type==='happy'?'var(--s4)':'var(--s3)'};">${m.name}</td></tr>`;
-    for (let s = 1; s <= 6; s++) {
-      const d = m.settings[s];
-      const comb = d.bb + d.rb;
-      tb.innerHTML += `<tr>
+function buildProbTable(){
+  const tb=document.getElementById('prob-tbody');
+  Object.entries(MACHINES).forEach(([key,m])=>{
+    tb.innerHTML+=`<tr class="table-machine-header"><td colspan="6">${m.name}</td></tr>`;
+    for(let s=1;s<=6;s++){
+      const d=m.settings[s];
+      const comb=d.bb+d.rb;
+      const sign=d.diff>=0?'+':'';
+      tb.innerHTML+=`<tr>
         <td class="color-s${s}">設定${s}</td>
         <td>1/${(1/d.bb).toFixed(1)}</td>
         <td>1/${(1/d.rb).toFixed(1)}</td>
         <td>1/${(1/comb).toFixed(1)}</td>
         <td>${(d.payout*100).toFixed(2)}%</td>
+        <td>${sign}${d.diff}</td>
       </tr>`;
     }
   });
 }
 
-// ---- 台比較タブ ----
-let machines = [];
-let machineId = 0;
-
-function calcWeightedScore(post, settings) {
-  settings = settings || SETTINGS;
-  let score = 0;
-  for (let s = 1; s <= 6; s++) {
-    score += post[s] * Math.round(3000 * (settings[s].payout - 1));
-  }
-  return Math.round(score);
-}
-
-function addMachine() {
-  if (machines.length >= 10) return;
-  machines.push({ id: ++machineId, num: '', g: 0, bb: 0, rb: 0 });
-  renderMachines();
-}
-
-function removeMachine(id) {
-  machines = machines.filter(m => m.id !== id);
-  renderMachines();
-  renderRanking();
-}
-
-function updateMachine(id, key, val) {
-  const m = machines.find(m => m.id === id);
-  if (!m) return;
-  m[key] = key === 'num' ? val : (parseInt(val) || 0);
-  renderRanking();
-}
-
-function renderMachines() {
-  const el = document.getElementById('machine-list');
-  el.innerHTML = machines.map(m => {
-    const type = getMachineType(m.num);
-    const badge = type ? `<span style="font-size:11px;color:${type==='happy'?'var(--s4)':'var(--s3)'};background:${type==='happy'?'rgba(251,146,60,0.12)':'rgba(167,139,250,0.12)'};padding:3px 7px;border-radius:4px;margin-left:6px;">${MACHINES[type].short}</span>` : (m.num ? `<span style="font-size:11px;color:var(--text3);background:var(--bg3);padding:3px 7px;border-radius:4px;margin-left:6px;">機種不明</span>` : '');
-    return `
-    <div class="machine-card">
-      <div class="machine-header">
-        <span class="machine-num-label">台番号</span>
-        <input class="machine-num-input" type="text" inputmode="numeric" placeholder="例:528"
-          value="${m.num}" oninput="updateMachine(${m.id},'num',this.value)">
-        ${badge}
-        <button class="machine-del" onclick="removeMachine(${m.id})">×</button>
-      </div>
-      <div class="machine-inputs">
-        <div class="machine-input-item">
-          <label>G数</label>
-          <input type="number" inputmode="numeric" placeholder="0" value="${m.g || ''}"
-            oninput="updateMachine(${m.id},'g',this.value)">
-        </div>
-        <div class="machine-input-item">
-          <label>BB</label>
-          <input type="number" inputmode="numeric" placeholder="0" value="${m.bb || ''}"
-            oninput="updateMachine(${m.id},'bb',this.value)">
-        </div>
-        <div class="machine-input-item">
-          <label>RB</label>
-          <input type="number" inputmode="numeric" placeholder="0" value="${m.rb || ''}"
-            oninput="updateMachine(${m.id},'rb',this.value)">
-        </div>
-      </div>
-    </div>`;
-  }).join('');
-  document.getElementById('add-btn').disabled = machines.length >= 10;
-}
-
-function renderRanking() {
-  const valid = machines.filter(m => m.g > 0);
-  const sec = document.getElementById('ranking-section');
-  if (valid.length === 0) { sec.style.display = 'none'; return; }
-  sec.style.display = 'block';
-
-  const ranked = valid.map(m => {
-    const type = getMachineType(m.num);
-    const settings = type ? MACHINES[type].settings : SETTINGS;
-    const machineName = type ? MACHINES[type].short : '機種不明';
-    const post = calcPostProb(m.g, m.bb, m.rb, settings);
-    const top = parseInt(Object.entries(post).sort((a,b) => b[1]-a[1])[0][0]);
-    const topPct = (post[top]*100).toFixed(0);
-    const score = calcWeightedScore(post, settings);
-    return { ...m, top, topPct, score, machineName, type };
-  }).sort((a, b) => b.score - a.score);
-
-  const medals = ['🥇','🥈','🥉'];
-  document.getElementById('ranking-list').innerHTML = ranked.map((m, i) => {
-    const label = m.num ? m.num + '番台' : '入力台' + m.id;
-    const scoreClass = m.score >= 0 ? 'score-pos' : 'score-neg';
-    const sign = m.score >= 0 ? '+' : '';
-    const mark = i < 3 ? medals[i] : (i+1) + '位';
-    const machineColor = m.type === 'happy' ? 'var(--s4)' : m.type === 'my' ? 'var(--s3)' : 'var(--text3)';
-    return `
-      <div class="rank-item" style="border-color:${COLORS[m.top]}40;">
-        <div class="rank-badge">${mark}</div>
-        <div class="rank-info">
-          <div class="rank-machine">${label} <span style="font-size:11px;color:${machineColor};">${m.machineName}</span></div>
-          <div class="rank-detail">
-            ${m.g.toLocaleString()}G / BB:${m.bb} / RB:${m.rb}
-            ・推定<span class="color-s${m.top}">設定${m.top}</span>(${m.topPct}%)
-          </div>
-        </div>
-        <div class="rank-score">
-          <div class="rank-score-val ${scoreClass}">${sign}${m.score}</div>
-          <div class="rank-score-label">枚/1,000G</div>
-        </div>
-      </div>`;
-  }).join('');
-}
-
-function switchTab(id) {
-  document.querySelectorAll('.tab-btn').forEach((b,i) => {
-    b.classList.toggle('active', ['judge','compare','history','table'][i] === id);
+function switchTab(id){
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>{
+    b.classList.toggle('active',['judge','history','table'][i]===id);
   });
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.getElementById('tab-'+id).classList.add('active');
-  if (id === 'history') renderHistory();
+  if(id==='history')renderHistoryList();
 }
 
 // Init
 buildProbTable();
 renderStats();
-addMachine();
-addMachine();
 </script>
 </body>
 </html>
